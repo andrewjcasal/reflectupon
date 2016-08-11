@@ -11,7 +11,8 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.startCommunityPage = function(params) {
       mixpanel.track('view-community', {
-        id: params.community._id
+        id: params.community._id,
+        title: params.community.title
       })
       rupon.account_info         = params.user || {};
       rupon.account_info.user_id = params.user._id;

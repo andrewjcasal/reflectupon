@@ -26,7 +26,7 @@ var userSchema = mongoose.Schema({
     }]
   , intention:   String
   , personal_url:String
-  , avatar_url:  String
+  , avatar_url: { type: String, default: '/images/heros-default.jpg'}
 });
 
 // Bcrypt middleware

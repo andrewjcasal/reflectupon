@@ -34,10 +34,10 @@ exports.sendEmail = function(params, callback) {
 }
 
 exports.sendNewEmail = function(email_addresses, params, callback) {
-
+    params = params || {};
     var email = new sendgrid.Email();
     email.setSmtpapiTos(email_addresses);
-    email.from = params.from || 'andrewjcasal@gmail.com';
+    email.from = params.from || 'stephen@heroslive.com';
     email.subject = params.subject;
     email.html    = params.html;
 
@@ -67,6 +67,15 @@ exports.sendNewEmail = function(email_addresses, params, callback) {
         callback();
       }
     })
+}
+
+exports.sendRegisterEmail = function(email) {
+
+    exports.sendNewEmail([email], {
+      subject: "Welcome to Heros!",
+      html:    "Welcome to Heros!",
+      template_id: 'e7685b73-1f75-47a6-8e9f-ce4959ba7ebe'
+    });
 }
 /**
  * Params

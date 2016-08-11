@@ -1,8 +1,4 @@
 <div class="write-reply">
-    <div class="sender-header">My Reply</div>
-    <div class="write-field">
-        <textarea class="write-reply-textarea" placeholder="Write your reply" style="resize: none;"></textarea>
-    </div>
     <div class="privacy-state clearfix">
         <div style="float:left;">
           Reply as <span id="show-username">{{username}}</span><span id="show-anon" style="display:none">Anonymous</span>
@@ -12,13 +8,19 @@
             <label for="write-anon">Write anonymously</label>
         </div>
     </div>
-    <div style="border-bottom: 1px solid #ccc;padding: 10px;" class="recommend-challenge-box">
-        <div style="display:none" class="recommending">
-            <strong>Recommending: </strong>
+    <div class="write-field">
+        <textarea class="write-reply-textarea" placeholder="Write your reply" style="resize: none;"></textarea>
+    </div>
+    <div class="recommend-challenge-box clearfix" style="padding: 6px 10px">
+        <div style="float:left">
+            <div style="display:none" class="recommending">
+                <strong>Recommending: </strong>
+            </div>
+            <a href="javascript:;" class="recommend-challenge">Recommend a past challenge!</a>
         </div>
-        <a href="javascript:;" class="recommend-challenge">Recommend a past challenge!</a>
+        <button id="submit-reply" type="button" class="btn btn-primary" style="float:right;">Submit</button>
     </div>
     <div class="submit-footer clearfix">
-        <button id="submit-reply" type="button" class="btn btn-primary" style="float:right">Submit</button>
+        
     </div>
 </div>

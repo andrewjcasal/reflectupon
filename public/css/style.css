@@ -263,7 +263,9 @@ a img{border:0;}
   padding-top: 10px;
 }
 .left-side{
-  float:left;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
 }
 .community-challenges-view .left-side{
   height:70px;
@@ -545,28 +547,25 @@ ul.get-started .desc {
 .view-replies{
     margin-left: 20px;
 }
+
+.write-reply{
+  padding-top:4px;
+}
 .write-reply-box{
-    background-color: #fff;
+    background-color: #f9f9f9;
     box-shadow: 0 0 2px #428bca;
 }
-
-.write-reply-box .sender-header{
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
 .write-reply-box .write-field{
-    border-bottom: 1px solid #ccc;
+    padding:0px 10px;
 }
 .write-reply-box .write-field textarea{
     resize: none;
     width: 100%;
-    min-height: 100px;
-    border: 0;
+    min-height: 60px;
+    border: 1px solid #ccc;
+    border-radius:4px;
     font-family: 'Merriweather';
     padding: 10px;
-}
-.write-reply-box .submit-footer{
-    padding:10px;
 }
 
 .write-reply-box .privacy-state{
@@ -964,8 +963,6 @@ ul.get-started .desc {
 
 .privacy-state {
   font-family: arial;
-  border-bottom: 1px solid #ccc;
-  margin-top: 4px;
 }
 
 .submit-footer {

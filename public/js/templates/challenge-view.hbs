@@ -20,73 +20,87 @@
         <div style="color: #666;font-weight: 500;font-size: 16px;">ACTION</div>
         <div class="main-header">{{title}}</div>
       </div>
+      <div class="completion-status">
+
+        {{#equal viewType "superuser"}}
+          <a href="javascript:;" class="delete">Delete</a>
+        {{/equal}}
+        {{#if pick}}
+          <button data-track="pick-challenge" class="btn btn-primary pick-challenge">Choose Challenge</button>
+        {{else}}
+          {{#if canRemove}}
+            <i class="fa fa-times" data-id="{{_id}}" style="border: 1px solid #ccc;padding: 10px;border-radius:4px;color:red"></i>
+          {{else}}
+            <div>
+              <button data-track="start-challenge" data-id="{{_id}}" class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
+              <button data-track="end-challenge" data-id="{{_id}}" class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
+              <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Completed!</span>
+            </div>
+          {{/if}}
+        {{/if}}
+      </div>
     </div>
   {{/if}}
-  <div class="left-side">
 
-    {{#unless extended}}
-      <div style="float:left">
-        <img id="preview" src="{{avatar_url}}" style="
-            background-color: #ccc;
-            height: 50px;
-            width: 50px;
-            float:left;
-            {{#unless avatar_url}}display:none{{/unless}}
-        ">
+  {{#unless extended}}
+  <div class="left-side clearfix">
+
+      <img id="preview" src="{{avatar_url}}" style="
+          background-color: #ccc;
+          height: 50px;
+          width: 50px;display:inline-block;
+          {{#unless avatar_url}}display:none{{/unless}}
+      ">
+      <div style="font-size:18px;margin-bottom:8px; display:inline-block;margin-left:10px">
+        {{#unless cantRedirect}}
+          <a data-track="go-to-challenge" data-id="{{_id}}" href="/challenge/{{_id}}">{{title}}</a>
+        {{else}}
+          {{title}}
+        {{/unless}}
       </div>
-    {{/unless}}
-    <div>
-      {{#unless extended}}
-        <div style="font-size:18px;margin-bottom:8px">
-          {{#unless cantRedirect}}
-            <a data-track="go-to-challenge" data-id="{{_id}}" href="/challenge/{{_id}}">{{title}}</a>
-          {{else}}
-            {{title}}
-          {{/unless}}
-        </div>
-      {{/unless}}
-      <div class="description">
-        {{#if extended}}
-        <div style="
-          font-weight: bold;
-          color: purple;
-          font-size: 13px;
-          margin-bottom: 2px;">DESCRIPTION
-        </div>
+    <div class="completion-status">
+
+      {{#equal viewType "superuser"}}
+        <a href="javascript:;" class="delete">Delete</a>
+      {{/equal}}
+      {{#if pick}}
+        <button data-track="pick-challenge" class="btn btn-primary pick-challenge">Choose Challenge</button>
+      {{else}}
+        {{#if canRemove}}
+          <i class="fa fa-times" data-id="{{_id}}" style="border: 1px solid #ccc;padding: 10px;border-radius:4px;color:red"></i>
+        {{else}}
+          <div>
+            <button data-track="start-challenge" data-id="{{_id}}" class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
+            <button data-track="end-challenge" data-id="{{_id}}" class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
+            <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Completed!</span>
+          </div>
         {{/if}}
-        {{{description}}}
-      </div>
-      {{#if extended}}
-        <div style="margin-top:20px;margin-bottom: 10px">
-        <div style="
-          font-weight: bold;
-          color: purple;
-          font-size: 13px;
-          margin-bottom: 2px;">INSTRUCTIONS
-        </div>{{{instructions}}}</div>
-        <div>{{link}}</div>
       {{/if}}
     </div>
   </div>
-  <div class="completion-status">
+  {{/unless}}
 
-    {{#equal viewType "superuser"}}
-      <a href="javascript:;" class="delete">Delete</a>
-    {{/equal}}
-    {{#if pick}}
-      <button data-track="pick-challenge" class="btn btn-primary pick-challenge">Choose Challenge</button>
-    {{else}}
-      {{#if canRemove}}
-        <i class="fa fa-times" data-id="{{_id}}" style="border: 1px solid #ccc;padding: 10px;border-radius:4px;color:red"></i>
-      {{else}}
-        <div>
-          <button data-track="start-challenge" data-id="{{_id}}" class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
-          <button data-track="end-challenge" data-id="{{_id}}" class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
-          <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Completed!</span>
-        </div>
-      {{/if}}
+  <div class="description">
+    {{#if extended}}
+    <div style="
+      font-weight: bold;
+      color: purple;
+      font-size: 13px;
+      margin-bottom: 2px;">DESCRIPTION
+    </div>
     {{/if}}
+    {{{description}}}
   </div>
+  {{#if extended}}
+    <div style="margin-top:20px;margin-bottom: 10px">
+    <div style="
+      font-weight: bold;
+      color: purple;
+      font-size: 13px;
+      margin-bottom: 2px;">INSTRUCTIONS
+    </div>{{{instructions}}}</div>
+    <div>{{link}}</div>
+  {{/if}}
 </div>
 <div class="dropdown-container arrow-right">
   <a style="

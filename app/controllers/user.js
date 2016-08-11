@@ -14,6 +14,7 @@ var config          = process.env.PORT ? require('../../config') : require('../.
         config.sg_username,
         config.sg_password
     ),
+    emails          = require('../utils/emails'),
     moment          = require('moment'),
 
     User        = mongoose.model('User'),
@@ -617,7 +618,7 @@ exports.postregister = function(req, res, next) {
                         if (err) console.log(err);
                     });
 
-                    exports.registerEmail(req.body.email);
+                    emails.sendRegisterEmail(req.body.email);
 
                     passport.authenticate('local', function(err, user, info) {
                         if (err) { return next(err) }

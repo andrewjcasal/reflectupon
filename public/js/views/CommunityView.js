@@ -154,10 +154,15 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(options) {
           options.isCreator = false;
+          options.coverDefault = false;
 
           if (options.coverUrl) {
-            options.coverUrl = "url('"+options.coverUrl+"')";
+            options.coverUrl = options.coverUrl;
+          } else {
+            options.coverUrl = "https://s3-us-west-2.amazonaws.com/avatars-images/crew%20smiles%20banner-min%20760.jpg";
+            options.coverDefault = true;
           }
+
           if (options.creator) {
             options.isCreator = rupon.account_info.user_id == options.creator._id;
           }
