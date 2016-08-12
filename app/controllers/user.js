@@ -72,7 +72,6 @@ exports.home = function(req, res, dates) {
 
 
                                     communities.getCommunities({}, function(communities) {
-
                                         var current = _.filter(user.user_challenges, function(uc) {
                                             return uc.status == 'started';
                                         });
@@ -100,7 +99,7 @@ exports.home = function(req, res, dates) {
                                             popular:      JSON.stringify(popular_thoughts),
                                             settings:     JSON.stringify(userSettings),
                                             communities:  JSON.stringify(communities),
-                                            myCommunities: JSON.stringify(user.communities),
+                                            myCommunities: JSON.stringify(_.where(user.communities, {approved: true})),
                                             myChallenges: JSON.stringify(current),
                                         };
 

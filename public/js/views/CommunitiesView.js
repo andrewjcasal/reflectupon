@@ -48,11 +48,19 @@ window.rupon.views = window.rupon.views || {};
 
         var modal = new rv.MainModal({
             modalType: addCommunityView,
-            htmlTitle: 'Add a Community',
+            htmlTitle: 'Suggest a Community',
         });
 
         addCommunityView
             .on('added', function(title) {
+              $(modal.$el).modal('hide');
+              var confirmCommunityView = new rv.ConfirmCommunityView();
+              var modalConfirm = new rv.MainModal({
+                  modalType: confirmCommunityView,
+                  htmlTitle: 'Thanks for your suggestion!'
+              });
+
+              $(modalConfirm.$el).modal();
             });
 
         $(modal.$el).modal();

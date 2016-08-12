@@ -135,7 +135,6 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ChallengeView = cv.SimpleModelView.extend({
       className: "challenge-view",
-      template: Handlebars.templates['challenge-view'],
       events: {
         'click .start-challenge': 'startChallenge',
         'click .complete-challenge': 'completeChallenge',
@@ -146,6 +145,11 @@ window.rupon.views = window.rupon.views || {};
         'click .related-challenges-list .fa-times': 'removeRelatedChallenge',
         'click .delete': 'delete',
         'click .report-challenge': 'reportChallenge'
+      },
+
+      initialize: function(options) {
+        this.template = options.template || Handlebars.templates['challenge-view'];
+        cv.SimpleModelView.prototype.initialize.call(this, options);
       },
 
       render: function(options) {
@@ -418,7 +422,10 @@ window.rupon.views = window.rupon.views || {};
           if (!challenge.title) {
             return new rv.PlaceholderChallengeView();
           } else {
-            return new rv.ChallengeView({model: new Backbone.Model(challenge)});
+            return new rv.ChallengeView({
+              model: new Backbone.Model(challenge),
+              template: Handlebars.templates['challenge-view-block']
+            });
           }
         }, options)
       },
@@ -454,7 +461,8 @@ window.rupon.views = window.rupon.views || {};
                     mixpanel.track('pick-challenge');
                     model.set('pick', true);
                     var chalRow = new rv.ChallengeView({
-                      model: model
+                      model: model,
+                      template: Handlebars.templates['challenge-view-block']
                     })
 
                     $.ajax({

@@ -11,7 +11,8 @@ exports.post = function(req, res) {
         title:       req.body.title,
         description: req.body.description,
         creator:     req.user,
-        guidelines:  req.body.guidelines
+        guidelines:  req.body.guidelines,
+        approved:    false
     }
 
     if (req.body.maxUsers) {
@@ -76,6 +77,14 @@ exports.putChallenge = function(req, res) {
 }
 
 exports.getCommunities = function(params, callback) {
+  params = params || {};
+
+  if (params.approved && params.approved == "all") {
+    delete params.approved;
+  } else {
+    params.approved = {$ne: false};
+  }
+
   Community
     .find(params)
     .populate('creator')

@@ -313,7 +313,6 @@ window.rupon.views = window.rupon.views || {};
                     url:  '/api/communities',
                     data: data,
                     success: function(response) {
-                        window.location.replace("/community/"+response.title);
                         self.trigger('added', response.title);
                     },
                     dataType: 'JSON'
@@ -321,6 +320,10 @@ window.rupon.views = window.rupon.views || {};
             }
         }
     })
+
+    rv.ConfirmCommunityView = cv.TemplateView.extend({
+        template: Handlebars.templates['confirm-community-view']
+    });
 
     rv.AddChallengesView = cv.TemplateView.extend({
         className: 'add-challenge-view modal-view',

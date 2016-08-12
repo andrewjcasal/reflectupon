@@ -5,7 +5,7 @@ exports.get = function(req, res) {
     var is_admin = req.user.email == 'andrewjcasal@gmail.com' || req.user.email == "stranovich@gmail.com";
 
     if (is_admin) {
-      communities.getCommunities({}, function(communities){
+      communities.getCommunities({approved: 'all'}, function(communities){
         challenges.getChallenges({}, function(challenges) {
           res.render('superuser', {
             landing_page: false,

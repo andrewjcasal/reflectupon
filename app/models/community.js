@@ -20,7 +20,8 @@ var communitySchema = Schema({
         type: Schema.Types.ObjectId, ref: 'Challenge'
       }
     }],
-    coverUrl: String
+    coverUrl: String,
+    approved: { type: Boolean, default: true}
 });
 
 communitySchema.pre("save", function(next) {
