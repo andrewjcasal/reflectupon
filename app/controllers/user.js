@@ -72,6 +72,7 @@ exports.home = function(req, res, dates) {
 
 
                                     communities.getCommunities({}, function(communities) {
+                                    challenges.getChallenges({}, function(challenges) {
                                         var current = _.filter(user.user_challenges, function(uc) {
                                             return uc.status == 'started';
                                         });
@@ -101,6 +102,7 @@ exports.home = function(req, res, dates) {
                                             communities:  JSON.stringify(communities),
                                             myCommunities: JSON.stringify(_.where(user.communities, {approved: true})),
                                             myChallenges: JSON.stringify(current),
+                                            challenges:   JSON.stringify(challenges)
                                         };
 
                                         if (prompts.length) {
@@ -111,7 +113,7 @@ exports.home = function(req, res, dates) {
                                         }
 
                                         res.render('home', attr);
-                                    })
+                                    }); });
 
                                 })
                             })
@@ -255,7 +257,10 @@ exports.community = function(req, res) {
 exports.challenges = function(req, res) {
 
     userSettings.getSettings(req.user._id, function(userSettings) {
-        challenges.getChallenges({}, function(challenges) {
+        challenges.getChallenges({featured: true}, function(challengesA) {
+            challenges.getChallenges({subjects: {'$in':['meditation']}}, function(challengesOne) {
+                challenges.getChallenges({subjects: {'$in':['social']}}, function(challengesTwo) {
+                    challenges.getChallenges({subjects: {'$in':['fitness']}}, function(challengesThree) {
 
             prompts.getPrompts({}, function(prompts) {
 
@@ -279,7 +284,10 @@ exports.challenges = function(req, res) {
                         'avatar_url'
                     ]);
 
-                    challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
+                    challengesA = helpers.startedChallengeStatus(challengesA, user.user_challenges);
+                    challengesOne = helpers.startedChallengeStatus(challengesOne, user.user_challenges);
+                    challengesTwo = helpers.startedChallengeStatus(challengesTwo, user.user_challenges);
+                    challengesThree = helpers.startedChallengeStatus(challengesThree, user.user_challenges);
 
                     var current = _.filter(user.user_challenges, function(uc) {
                         return uc.status == 'started';
@@ -296,13 +304,18 @@ exports.challenges = function(req, res) {
                         topBar: true,
                         is_admin: false,
                         signout: true,
-                        challenges: JSON.stringify(challenges),
+                        challenges: JSON.stringify(challengesA),
                         prompts: JSON.stringify(prompts),
                         myCommunities: JSON.stringify(user.communities),
-                        myChallenges: JSON.stringify(current)
+                        myChallenges: JSON.stringify(current),
+                        challengesOne: JSON.stringify(challengesOne),
+                        challengesTwo: JSON.stringify(challengesTwo),
+                        challengesThree: JSON.stringify(challengesThree)
                     });
                 });
             })
+
+            }); }); });
 
         })
     });

@@ -15,7 +15,10 @@ window.rupon.views = window.rupon.views || {};
             'selectstart .selectable':        'takeAnnotation',
             'click #submit-reply':            'submitReply',
             'change #write-anon':             'toggleName',
-            'click .recommend-challenge':     'recommendChallenge'
+            'click .recommend-challenge':     'recommendChallenge',
+            'keyup .recommend-challenge-input': 'typingChallenge',
+            'click .choose-challenge':        'chooseChallenge',
+            'click .add-challenge-stream':    'addChallengeStream'
         },
 
         annotation_mode: false,
@@ -282,41 +285,108 @@ window.rupon.views = window.rupon.views || {};
         },
 
         recommendChallenge: function() {
+            this.$el.find('.recommend-challenge').hide();
+            var inputBox = this.$el.find('.recommend-challenge-input');
+            inputBox.show().focus();
 
-            var self = this;
-            $.ajax({
-               type: 'GET',
-                url:  '/api/challenges/',
-                success: function(response) {
+            // var self = this;
+            // $.ajax({
+            //    type: 'GET',
+            //     url:  '/api/challenges/',
+            //     success: function(response) {
 
-                    response = _.map(response, function(challenge) {
-                        challenge.pick = true;
-                        return challenge;
-                    })
-                    var pastChallengesView = new rv.ChallengesView({
-                        challenges: response,
-                        prompts:    {},
-                        collection: new Backbone.Collection(response)
-                    });
+            //         response = _.map(response, function(challenge) {
+            //             challenge.pick = true;
+            //             return challenge;
+            //         })
+            //         var pastChallengesView = new rv.ChallengesView({
+            //             challenges: response,
+            //             prompts:    {},
+            //             collection: new Backbone.Collection(response)
+            //         });
 
-                    var modal = new rv.MainModal({
-                        modalType: pastChallengesView,
-                        htmlTitle: 'Recommend a past challenge',
-                    });
+            //         var modal = new rv.MainModal({
+            //             modalType: pastChallengesView,
+            //             htmlTitle: 'Recommend a past challenge',
+            //         });
             
-                    $(modal.$el).modal();
+            //         $(modal.$el).modal();
 
-                    pastChallengesView
-                        .on('picked', function(model) {
-                            $(modal.$el).modal('hide');
-                            self.$el.find('.recommend-challenge-box .recommending').show();
-                            self.$el.find('.recommend-challenge-box .recommending').html(model.get('title'));
-                            self.$el.find('.recommend-challenge-box .recommending').attr('data-id', model.id)
-                        })
-                },
-                dataType: 'JSON'
+            //         pastChallengesView
+            //             .on('picked', function(model) {
+            //                 $(modal.$el).modal('hide');
+            //                 self.$el.find('.recommend-challenge-box .recommending').show();
+            //                 self.$el.find('.recommend-challenge-box .recommending').html(model.get('title'));
+            //                 self.$el.find('.recommend-challenge-box .recommending').attr('data-id', model.id)
+            //             })
+            //     },
+            //     dataType: 'JSON'
+            // });
+
+        },
+
+        typingChallenge: function() {
+            this.inputBox = this.$el.find('.recommend-challenge-input');
+
+            var val = this.inputBox.val();
+
+            var challenges = _.filter(rupon.challenges, function(c) {
+                return c.title && c.title.indexOf(val) != -1;
+            });
+            challenges = _.first(challenges, 3);
+            var content = Handlebars.templates['tooltip-challenges-view']({challenges: challenges})
+            this.inputBox.popover({
+                content: 'text',
+                placement: "bottom",
+                html: true
             });
 
+            this.inputBox.popover('show');
+            this.$el.find('.popover-content').html(content);
+        },
+
+        chooseChallenge: function(e) {
+            var titleEl = $(e.currentTarget).parent().find('.challenge-title');
+            var title = titleEl.text();
+            var challengeId = titleEl.attr('data-id');
+
+            this.$el.find('.recommend-challenge-box .recommending').show();
+            this.$el.find('.recommend-challenge-box .recommending span').html(title);
+            this.$el.find('.recommend-challenge-box .recommending').attr('data-id', challengeId);
+
+            this.inputBox.popover('hide');
+            this.$el.find('.recommend-challenge-input').hide();
+        },
+
+        addChallengeStream: function() {
+
+            mixpanel.track('add-challenge-stream');
+
+            var self = this;
+            var addChallengesView = new rv.AddChallengesView();
+
+            var modal = new rv.MainModal({
+                modalType: addChallengesView,
+                htmlTitle: 'Add a challenge'
+            });
+
+            addChallengesView
+                .on('added', function(response) {
+                    var title = response.title;
+                    var challengeId = response._id;
+
+                    self.$el.find('.recommend-challenge-box .recommending').show();
+                    self.$el.find('.recommend-challenge-box .recommending span').html(title);
+                    self.$el.find('.recommend-challenge-box .recommending').attr('data-id', challengeId);
+
+                    self.inputBox.popover('hide');
+                    self.$el.find('.recommend-challenge-input').hide();
+                    $(modal.$el).modal('hide');
+                });
+
+            $(modal.$el).modal();
         }
+
+
     }
 })();

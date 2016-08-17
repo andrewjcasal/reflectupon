@@ -114,17 +114,20 @@ window.rupon.utils = window.rupon.utils || {};
         showChallenges: true
       });
 
-      $("#container").append('<div class="main-view-container"></div><div class="side-view-container"></div>');
+      $("#container").append('<div class="main-view-container clearfix"></div><div class="side-view-container"></div>');
       $("#container .side-view-container").append(communitySidebarView.$el);
       $("#container .side-view-container").append(frequencyView.$el);
 
       $("#container .main-view-container").append(communityHeaderView.$el);
+      $("#container .main-view-container").append("<div class='main-content' style='width:500px;float:left;'></div>")
+      $("#container .main-view-container").append("<div class='side-content' style='float:right;width:240px'></div>")
+
+      $("#container .main-view-container .main-content").append(writeView.$el);
 
       if (showCommunityChallengesView) {
-        $("#container .main-view-container").append(communityChallengesView.$el);
+        $("#container .main-view-container .side-content").append(communityChallengesView.$el);
       }
-      $("#container .main-view-container").append(writeView.$el);
-      $("#container .main-view-container").append('<div class="popular-container"><div class="small-header">Community Entries</div></div>');
+      $("#container .main-view-container .main-content").append('<div class="popular-container"><div class="small-header">Community Entries</div></div>');
 
       if (!popularCollection.models.length) {
         $('.popular-container').append('<div class="placeholder" style="padding: 10px">Subscribe and write an entry!</div>');

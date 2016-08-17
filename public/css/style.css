@@ -180,7 +180,7 @@ a img{border:0;}
     font-size: 18px;
     color: purple;
     border-bottom: 2px solid purple;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .community-page .main-module .header{
   margin-bottom:0;
@@ -249,10 +249,20 @@ a img{border:0;}
   width: 50px;display:inline-block;
 }
 
-.community-challenges-view .challenge-view img{
+.horizontal-challenge-view .challenge-view img{
   height: 30px;
   width: 30px;
   margin-right: 8px;
+}
+
+.community-challenges-view {
+  width: 100%;
+}
+
+.horizontal-challenge-view.community-challenges-view .challenge-view {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  border-right: 0;
 }
 
 .challenge-view .arrow-right{
@@ -279,7 +289,7 @@ a img{border:0;}
   padding-bottom: 5px;
   margin-bottom: 10px;
 }
-.community-challenges-view .left-side{
+.horizontal-challenge-view .left-side{
   height:37px;
   float:none;
   border-bottom: 0;
@@ -289,12 +299,12 @@ a img{border:0;}
   float:right;
   margin-right: 20px;
 }
-.community-challenges-view .completion-status{
+.horizontal-challenge-view .completion-status{
   float:none;
   text-align: center;
   margin: 0;
 }
-.community-challenges-view .challenge-view .description{
+.horizontal-challenge-view .challenge-view .description{
   height: 41px;
   overflow: hidden;
   margin-bottom: 5px;
@@ -319,7 +329,7 @@ a img{border:0;}
   box-shadow: 0px 1px 2px #d2d1d2;
 }
 
-.community-challenges-view .challenge-view{
+.horizontal-challenge-view .challenge-view{
   width:33.33%;
   float:left;
   margin-top:0;
@@ -573,6 +583,16 @@ ul.get-started .desc {
 .write-reply-box .write-field{
     padding:0px 10px;
 }
+.write-reply-box .recommend-challenge-input{
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 300px;
+  padding: 2px 10px;
+  display:none;
+}
+.write-reply-box .popover{
+  width:260px;
+}
 .write-reply-box .write-field textarea{
     resize: none;
     width: 100%;
@@ -749,6 +769,7 @@ ul.get-started .desc {
   z-index:2;
   border-radius:inherit;
   margin-bottom: 15px;
+  max-width:500px;
 }
 .write-view .footer .options{float: left;}
 .write-view .footer .submit-options{float:right;}
@@ -794,12 +815,11 @@ ul.get-started .desc {
   max-height:630px;
   resize:none;
   display:block;
-  font-family:'Merriweather';
-  font-size:18px;
+  font-size:16px;
   border:0;
   min-height:60px;
   width:100%;
-  padding: 20px 12px 12px;
+  padding: 12px;
 }
 
 .write-view .journal-prompt {
@@ -845,7 +865,18 @@ ul.get-started .desc {
 .write-view .delayed-entry{padding: 10px 15px;font-size: 18px;font-weight: 200;background-color: #E5FDFF;}
 .write-view .expanded.no-opacity{overflow:hidden;opacity:0;max-height:54px;pointer-events:none;}
 
-.community-challenges-view{
+.horizontal-challenge-module{
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  border-radius:4px
+}
+
+.horizontal-challenge-header{
+  border-bottom: 1px solid #ccc;
+  padding: 5px 12px;
+  color: purple;
+  background-color: #f8ebff;
+  font-size:16px;
 }
 
 .community-challenges-view .challenge-row {
@@ -853,8 +884,8 @@ ul.get-started .desc {
   border-top:1px solid #ccc;
 }
 
-.community-challenges-view .challenge-row:first-child {
-  border-top: 0;
+.horizontal-challenge-view .challenge-view:last-child {
+  border-right: 0;
 }
 
 /*.thought-row .message .description{font-family: 'Merriweather';}*/
@@ -1149,10 +1180,11 @@ div.jquery-gdakram-tooltip h1{display:none}
 .filter-view {
   padding: 8px 12px;
   font-size: 16px;
-  margin-bottom: 12px;
   background-color: rgba(128, 0, 128, 0.68);
   color: #fff;
   border-radius: 4px;
+  margin-left: 10px;
+  float: left;
 }
 .filter-view input{
   color: #444;

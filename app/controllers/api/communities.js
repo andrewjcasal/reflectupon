@@ -52,7 +52,7 @@ exports.get = function(req, res) {
 exports.put = function(req, res) {
   Community.findById(req.params.id, function (err, community) {
 
-      community = _.extend(community, _.pick(req.body, ['title','description', 'guidelines', 'maxUsers', 'coverUrl']));
+      community = _.extend(community, _.pick(req.body, ['title','description', 'guidelines', 'maxUsers', 'coverUrl', 'approved']));
       community.save(function(err) {
           res.send(community);
       });

@@ -27,7 +27,7 @@ window.rupon.views = window.rupon.views || {};
         this.$el.html(this.template(options));
 
         var challengesPage = new rv.ChallengesView({
-          collection: this.collection,
+          collection: options.collectionFeatured,
           cantRedirect: this.cantRedirect
         });
 
@@ -37,7 +37,43 @@ window.rupon.views = window.rupon.views || {};
             self.trigger('picked', model);
           });
 
-        this.$el.find('.challenges-list').html(challengesPage.$el);
+        var challengesPageA = new rv.ChallengesView({
+          collection: options.collectionOne,
+          cantRedirect: this.cantRedirect
+        });
+
+        var self = this;
+        challengesPageA
+          .on('picked', function(model) {
+            self.trigger('picked', model);
+          });
+
+        var challengesPageB = new rv.ChallengesView({
+          collection: options.collectionTwo,
+          cantRedirect: this.cantRedirect
+        });
+
+        var self = this;
+        challengesPageB
+          .on('picked', function(model) {
+            self.trigger('picked', model);
+          });
+
+        var challengesPageC = new rv.ChallengesView({
+          collection: options.collectionThree,
+          cantRedirect: this.cantRedirect
+        });
+
+        var self = this;
+        challengesPageC
+          .on('picked', function(model) {
+            self.trigger('picked', model);
+          });
+
+        this.$el.find('.list-featured').html(challengesPage.$el);
+        this.$el.find('.list-one').html(challengesPageA.$el);
+        this.$el.find('.list-two').html(challengesPageB.$el);
+        this.$el.find('.list-three').html(challengesPageC.$el);
       },
 
       renderList: function(challenges) {
@@ -111,18 +147,19 @@ window.rupon.views = window.rupon.views || {};
         }
 
         cv.CollectionContainer.prototype.initialize.call(this, function(model) {
-          if (!!model.get('title')) {
-            return new rv.ChallengeView({
-              model: model,
-              canRemove: options.canRemove,
-              cantRedirect: options.cantRedirect,
-              viewType: options.viewType
-            });
-          } else {
-            return new rv.PromptView({
-              model: model
-            });
+
+          var attr = {
+            model: model,
+            canRemove: options.canRemove,
+            cantRedirect: options.cantRedirect,
+            viewType: options.viewType
           }
+
+          if (options.viewType != "superuser") {
+            attr.template = Handlebars.templates['challenge-view-block']
+          }
+
+          return new rv.ChallengeView(attr);
         });
       }
 
@@ -144,7 +181,9 @@ window.rupon.views = window.rupon.views || {};
         'click .select-challenge': 'selectRelatedChallenge',
         'click .related-challenges-list .fa-times': 'removeRelatedChallenge',
         'click .delete': 'delete',
-        'click .report-challenge': 'reportChallenge'
+        'click .report-challenge': 'reportChallenge',
+        'click .submit-challenge-subject': 'submitChallengeSubject',
+        'click .submit-featured': 'submitFeatured'
       },
 
       initialize: function(options) {
@@ -382,6 +421,37 @@ window.rupon.views = window.rupon.views || {};
         });
       },
 
+      submitChallengeSubject: function() {
+        var self = this;
+        var val = this.$el.find('.add-challenge-subject').val();
+        $.ajax({
+            type: 'PUT',
+            url:  '/api/challenges/' +self.model.id,
+            data: {
+                addSubject: val
+            },
+            success: function(response) {
+              self.$el.find('.subjects-list').html(response.subjects.join(", "));
+              self.$el.find('.add-challenge-subject').val("");
+              self.$el.find('.add-challenge-subject').focus();
+            },
+            dataType: 'JSON'
+        });
+      },
+
+      submitFeatured: function() {
+        var self = this;
+        $.ajax({
+            type: 'PUT',
+            url:  '/api/challenges/' +self.model.id,
+            data: {
+                featured: true
+            },
+            success: function(response) {},
+            dataType: 'JSON'
+        });
+      },
+
       reportChallenge: function() {
         var self = this;
         $.ajax({
@@ -402,7 +472,7 @@ window.rupon.views = window.rupon.views || {};
     rv.CommunityChallengesView = cv.CollectionContainer.extend({
       template: Handlebars.templates['community-challenges-view'],
 
-      className: "section community-challenges-view",
+      className: "section community-challenges-view horizontal-challenge-view",
       container_ele: ".challenge-list",
 
       events: {

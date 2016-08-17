@@ -62,6 +62,15 @@
 
       {{#equal viewType "superuser"}}
         <a href="javascript:;" class="delete">Delete</a>
+        <span class="subjects-list">
+          {{#each subjects}}
+            {{this}}
+          {{/each}}
+        </span>
+        <input class="add-challenge-subject" type="text" />
+        <i class="box fa-check fa submit-challenge-subject"></i>
+        {{featured}}
+        <i style="background-color:yellow" class="box fa-check fa submit-featured"></i>
       {{/equal}}
       {{#if pick}}
         <button data-track="pick-challenge" class="btn btn-primary pick-challenge">Choose Challenge</button>

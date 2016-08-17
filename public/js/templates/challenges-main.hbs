@@ -4,17 +4,31 @@
 </div>
 {{/unless}}
 <div class="clearfix">
-<a href="javascript:;" class="add-challenge btn btn-primary" style="font-size: 18px;
-    display: block;
-    margin-bottom: 12px;padding:10px 15px;float:left"><i class="fa fa-plus" style="margin-right:8px;vertical-align:-1px"></i>Add a New Action</a>
+  <a href="javascript:;" class="add-challenge btn btn-primary" style="font-size: 18px;
+      display: block;padding:10px 15px;float:left"><i class="fa fa-plus" style="margin-right:8px;vertical-align:-1px"></i>Add a New Action</a>
+  <div class="filter-view">
+    Search: <input class="search-challenges" style="width: 200px; border: 1px solid #ccc;padding:4px;border-radius:4px" />
+    <!--
+    <div class="filter" style="margin-left: 20px;display: inline-block">Filter: 
+      <a class="all" href="javascript:;">All</a>
+      <a class="challenges" href="javascript:;">Challenges</a>
+      <a class="prompts" href="javascript:;">Prompts</a>
+    </div>-->
   </div>
-<div class="filter-view">
-  Search: <input class="search-challenges" style="width: 200px; border: 1px solid #ccc;padding:4px;border-radius:4px" />
-  <!--
-  <div class="filter" style="margin-left: 20px;display: inline-block">Filter: 
-    <a class="all" href="javascript:;">All</a>
-    <a class="challenges" href="javascript:;">Challenges</a>
-    <a class="prompts" href="javascript:;">Prompts</a>
-  </div>-->
+  </div>
+<div class="horizontal-challenge-module" style="margin-top:10px">
+  <div class="horizontal-challenge-header">Featured Actions</div>
+  <div class="challenges-list list-featured horizontal-challenge-view clearfix"></div>
 </div>
-<div class="challenges-list"></div>
+<div class="horizontal-challenge-module" style="margin-top:10px">
+  <div class="horizontal-challenge-header">Meditation Actions</div>
+  <div class="challenges-list list-one horizontal-challenge-view clearfix"></div>
+</div>
+<div class="horizontal-challenge-module" style="margin-top:10px">
+  <div class="horizontal-challenge-header">Social Actions</div>
+  <div class="challenges-list list-two horizontal-challenge-view clearfix"></div>
+</div>
+<div class="horizontal-challenge-module" style="margin-top:10px">
+  <div class="horizontal-challenge-header">Fitness Actions</div>
+  <div class="challenges-list list-three horizontal-challenge-view clearfix"></div>
+</div>

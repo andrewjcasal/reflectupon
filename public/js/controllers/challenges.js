@@ -21,10 +21,17 @@ window.rupon.utils = window.rupon.utils || {};
         return !challenge.flaggedBy.length;
       });
 
+      var challengesOne = params.challengesOne;
+      var challengesTwo = params.challengesTwo;
+      var challengesThree = params.challengesThree;
+
       var challengesPage = new rv.MainChallengesView({
         challenges: challenges,
         prompts:    params.prompts,
-        collection: new rm.challengesCollection(challenges)
+        collectionFeatured: new rm.challengesCollection(challenges),
+        collectionOne: new rm.challengesCollection(challengesOne),
+        collectionTwo: new rm.challengesCollection(challengesTwo),
+        collectionThree: new rm.challengesCollection(challengesThree)
       });
 
       var frequencyView = new rv.FrequencyView({

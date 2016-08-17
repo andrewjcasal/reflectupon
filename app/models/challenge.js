@@ -14,7 +14,11 @@ var challengeSchema = Schema({
     avatar_url: String,
     flaggedBy: [{
       type: Schema.Types.ObjectId, ref: 'User'
-    }]
+    }],
+    subjects: [{
+      type: String
+    }],
+    featured: Boolean
 }, {
   timestamps: true
 });

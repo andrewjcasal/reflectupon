@@ -24,6 +24,7 @@ window.rupon.utils = window.rupon.utils || {};
     rc.setAllThoughts = function(params) {
         rupon.account_info         = params.user || {};
         rupon.account_info.user_id = params.user._id;
+        rupon.challenges = params.challenges;
         rc.setSettings(params.settings, rupon.account_info.username);
 
         mixpanel.identify(rupon.account_info.user_id);

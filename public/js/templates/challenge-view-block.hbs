@@ -2,14 +2,26 @@
     {{#equal viewType "superuser"}}{{#if flaggedBy.length}}background-color: #ccc{{/if}}{{/equal}}">
   <div class="left-side clearfix">
 
-    <img id="preview" src="{{avatar_url}}" style="
+    <img id="preview" src="{{avatar_url}}" style="vertical-align: -5px;
         {{#unless avatar_url}}display:none{{/unless}}
     ">
     <div style="font-size:18px;margin-bottom:8px; display:inline-block;">
       {{#unless cantRedirect}}
-        <a data-track="go-to-challenge" data-id="{{_id}}" href="/challenge/{{_id}}">{{title}}</a>
+        <a data-track="go-to-challenge" data-id="{{_id}}" href="/challenge/{{_id}}" title="{{title}}" style="
+    {{#if avatar_url}}width: 129px;{{else}}width: 200px;{{/if}}
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+">{{title}}</a>
       {{else}}
-        {{title}}
+        <span title="{{title}}" style="
+    {{#if avatar_url}}width: 129px;{{else}}width: 200px;{{/if}}
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+">{{title}}</span>
       {{/unless}}
     </div>
   </div>

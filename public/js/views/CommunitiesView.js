@@ -97,7 +97,8 @@ window.rupon.views = window.rupon.views || {};
 
       events: {
         'click': 'clickElement',
-        'click .delete': 'delete'
+        'click .delete': 'delete',
+        'click .change-approval': 'changeApproval'
       },
 
       initialize: function(options) {
@@ -122,6 +123,23 @@ window.rupon.views = window.rupon.views || {};
             url:  '/api/communities/' + self.model.id,
             success: function(response) {
               self.$el.remove();
+            },
+            dataType: 'JSON'
+        });
+      },
+
+      changeApproval: function() {
+        var val = this.$el.find('.change-approval').text() === "true"
+
+        var self = this;
+        $.ajax({
+            type: 'PUT',
+            url:  '/api/communities/' + self.model.id,
+            data: {
+              approved: !val
+            },
+            success: function(response) {
+              self.$el.find('.change-approval').text(response.approved);
             },
             dataType: 'JSON'
         });

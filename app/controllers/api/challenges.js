@@ -83,7 +83,9 @@ exports.put = function(req, res) {
     'status',
     'thought',
     'avatar_url',
-    'flaggedBy'
+    'flaggedBy',
+    'addSubject',
+    'featured'
   ]);
 
   // Only specific user challenges
@@ -96,6 +98,15 @@ exports.put = function(req, res) {
     if (options.flaggedBy) {
       Challenge.findByIdAndUpdate(req.params.id, {
         $push: {flaggedBy: req.user}
+      }, {'new': true}, function(err, challenge) {
+        if (err) {
+          console.log(err);
+        }
+        res.send(challenge);
+      });
+    } else if (options.addSubject) {
+      Challenge.findByIdAndUpdate(req.params.id, {
+        $push: {subjects: options.addSubject}
       }, {'new': true}, function(err, challenge) {
         if (err) {
           console.log(err);

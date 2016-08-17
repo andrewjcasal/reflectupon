@@ -15,7 +15,8 @@
       <div style="margin-bottom: 10px">{{description}}</div>
       {{#equal viewType "superuser"}}
       <a href="javascript:;" class="delete">Delete</a>
-      <span>Approval Status:</span>{{approved}}
+      <span>Approval Status:</span>
+      <button class="btn btn-primary change-approval" style="margin-left:4px;padding:2px 6px">{{approved}}</button>
       {{/equal}}
     </div>
   </div>
