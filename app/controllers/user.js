@@ -258,9 +258,7 @@ exports.challenges = function(req, res) {
 
     userSettings.getSettings(req.user._id, function(userSettings) {
         challenges.getChallenges({featured: true}, function(challengesA) {
-            challenges.getChallenges({subjects: {'$in':['meditation']}}, function(challengesOne) {
-                challenges.getChallenges({subjects: {'$in':['social']}}, function(challengesTwo) {
-                    challenges.getChallenges({subjects: {'$in':['fitness']}}, function(challengesThree) {
+            challenges.getChallenges({subjects: {'$in':['meditation', 'adventure','relationships','self-esteem','addiction','social']}}, function(challengesOne) {
 
             prompts.getPrompts({}, function(prompts) {
 
@@ -286,8 +284,6 @@ exports.challenges = function(req, res) {
 
                     challengesA = helpers.startedChallengeStatus(challengesA, user.user_challenges);
                     challengesOne = helpers.startedChallengeStatus(challengesOne, user.user_challenges);
-                    challengesTwo = helpers.startedChallengeStatus(challengesTwo, user.user_challenges);
-                    challengesThree = helpers.startedChallengeStatus(challengesThree, user.user_challenges);
 
                     var current = _.filter(user.user_challenges, function(uc) {
                         return uc.status == 'started';
@@ -308,14 +304,12 @@ exports.challenges = function(req, res) {
                         prompts: JSON.stringify(prompts),
                         myCommunities: JSON.stringify(user.communities),
                         myChallenges: JSON.stringify(current),
-                        challengesOne: JSON.stringify(challengesOne),
-                        challengesTwo: JSON.stringify(challengesTwo),
-                        challengesThree: JSON.stringify(challengesThree)
+                        challengesOne: JSON.stringify(challengesOne)
                     });
                 });
             })
 
-            }); }); });
+            });
 
         })
     });

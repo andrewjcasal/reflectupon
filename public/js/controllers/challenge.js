@@ -14,7 +14,8 @@ window.rupon.utils = window.rupon.utils || {};
       rupon.account_info.user_id = params.user._id;
 
       mixpanel.track('view-challenge', {
-        id: params.challenge._id
+        id: params.challenge._id,
+        title: params.challenge.title
       });
       rc.setSettings(params.settings, rupon.account_info.username);
       

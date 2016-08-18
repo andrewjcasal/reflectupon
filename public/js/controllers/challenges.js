@@ -22,16 +22,25 @@ window.rupon.utils = window.rupon.utils || {};
       });
 
       var challengesOne = params.challengesOne;
-      var challengesTwo = params.challengesTwo;
-      var challengesThree = params.challengesThree;
+
+      var challenges1 = _.filter(challengesOne, function(c) {return _.contains(c.subjects, 'meditation')});
+      var challenges2 = _.filter(challengesOne, function(c) {return _.contains(c.subjects, 'adventure')});
+      var challenges3 = _.filter(challengesOne, function(c) {return _.contains(c.subjects, 'relationships')});
+      var challenges4 = _.filter(challengesOne, function(c) {return _.contains(c.subjects, 'self-esteem')});
+      var challenges5 = _.filter(challengesOne, function(c) {return _.contains(c.subjects, 'addiction')});
+      var challenges6 = _.filter(challengesOne, function(c) {return _.contains(c.subjects, 'social')});
 
       var challengesPage = new rv.MainChallengesView({
         challenges: challenges,
         prompts:    params.prompts,
         collectionFeatured: new rm.challengesCollection(challenges),
-        collectionOne: new rm.challengesCollection(challengesOne),
-        collectionTwo: new rm.challengesCollection(challengesTwo),
-        collectionThree: new rm.challengesCollection(challengesThree)
+        collection1: new rm.challengesCollection(challenges1),
+        collection2: new rm.challengesCollection(challenges2),
+        collection3: new rm.challengesCollection(challenges3),
+        collection4: new rm.challengesCollection(challenges4),
+        collection5: new rm.challengesCollection(challenges5),
+        collection6: new rm.challengesCollection(challenges6),
+
       });
 
       var frequencyView = new rv.FrequencyView({

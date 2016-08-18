@@ -38,7 +38,7 @@ window.rupon.views = window.rupon.views || {};
           });
 
         var challengesPageA = new rv.ChallengesView({
-          collection: options.collectionOne,
+          collection: options.collection1,
           cantRedirect: this.cantRedirect
         });
 
@@ -49,7 +49,7 @@ window.rupon.views = window.rupon.views || {};
           });
 
         var challengesPageB = new rv.ChallengesView({
-          collection: options.collectionTwo,
+          collection: options.collection2,
           cantRedirect: this.cantRedirect
         });
 
@@ -60,7 +60,7 @@ window.rupon.views = window.rupon.views || {};
           });
 
         var challengesPageC = new rv.ChallengesView({
-          collection: options.collectionThree,
+          collection: options.collection3,
           cantRedirect: this.cantRedirect
         });
 
@@ -70,10 +70,46 @@ window.rupon.views = window.rupon.views || {};
             self.trigger('picked', model);
           });
 
+        var challengesPageD = new rv.ChallengesView({
+          collection: options.collection4,
+          cantRedirect: this.cantRedirect
+        });
+
+        var self = this;
+        challengesPageD
+          .on('picked', function(model) {
+            self.trigger('picked', model);
+          });
+
+        var challengesPageE = new rv.ChallengesView({
+          collection: options.collection5,
+          cantRedirect: this.cantRedirect
+        });
+
+        var self = this;
+        challengesPageE
+          .on('picked', function(model) {
+            self.trigger('picked', model);
+          });
+
+        var challengesPageF = new rv.ChallengesView({
+          collection: options.collection6,
+          cantRedirect: this.cantRedirect
+        });
+
+        var self = this;
+        challengesPageF
+          .on('picked', function(model) {
+            self.trigger('picked', model);
+          });
+
         this.$el.find('.list-featured').html(challengesPage.$el);
         this.$el.find('.list-one').html(challengesPageA.$el);
         this.$el.find('.list-two').html(challengesPageB.$el);
         this.$el.find('.list-three').html(challengesPageC.$el);
+        this.$el.find('.list-four').html(challengesPageD.$el);
+        this.$el.find('.list-five').html(challengesPageE.$el);
+        this.$el.find('.list-six').html(challengesPageF.$el);
       },
 
       renderList: function(challenges) {
