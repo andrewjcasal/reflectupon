@@ -18,7 +18,24 @@
       </div>
       <div style="float:left;padding:10px">
         <div style="color: #666;font-weight: 500;font-size: 16px;">ACTION</div>
-        <div class="main-header">{{title}}</div>
+        <div class="main-header">
+          {{#if isCreator}}
+            <div class="title-container">
+              {{title}}
+              <div style="display: inline-block;vertical-align: 5px;">
+                <a href="javascript:;" class="change-challenge-title">
+                  <i data-track="edit-title" data-id="{{communityId}}" class="box fa fa-pencil"></i>
+                </a>
+              </div>
+            </div>
+            <div class="edit-title-container" style="display:none; text-align: right;">
+              <input style="border: 1px solid #ccc;width:100%;margin-bottom:10px;" value="{{title}}" />
+              <button data-track="submit-challenge-title" data-id="{{communityId}}" class="btn btn-primary">Update</button>
+            </div>
+          {{else}}
+            {{title}}
+          {{/if}}
+        </div>
       </div>
       <div class="completion-status">
 
@@ -64,7 +81,7 @@
         <a href="javascript:;" class="delete">Delete</a>
         <span class="subjects-list">
           {{#each subjects}}
-            {{this}}
+            <a href="javascript:;" class="remove-subject" style="border:1px solid #ccc;display:inline-block;padding:2px;border-radius:4px">{{this}}</a>
           {{/each}}
         </span>
         <input class="add-challenge-subject" type="text" />

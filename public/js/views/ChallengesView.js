@@ -27,7 +27,7 @@ window.rupon.views = window.rupon.views || {};
         this.$el.html(this.template(options));
 
         var challengesPage = new rv.ChallengesView({
-          collection: options.collectionFeatured,
+          collection: this.collection,
           cantRedirect: this.cantRedirect
         });
 
@@ -37,79 +37,83 @@ window.rupon.views = window.rupon.views || {};
             self.trigger('picked', model);
           });
 
-        var challengesPageA = new rv.ChallengesView({
-          collection: options.collection1,
-          cantRedirect: this.cantRedirect
-        });
-
-        var self = this;
-        challengesPageA
-          .on('picked', function(model) {
-            self.trigger('picked', model);
-          });
-
-        var challengesPageB = new rv.ChallengesView({
-          collection: options.collection2,
-          cantRedirect: this.cantRedirect
-        });
-
-        var self = this;
-        challengesPageB
-          .on('picked', function(model) {
-            self.trigger('picked', model);
-          });
-
-        var challengesPageC = new rv.ChallengesView({
-          collection: options.collection3,
-          cantRedirect: this.cantRedirect
-        });
-
-        var self = this;
-        challengesPageC
-          .on('picked', function(model) {
-            self.trigger('picked', model);
-          });
-
-        var challengesPageD = new rv.ChallengesView({
-          collection: options.collection4,
-          cantRedirect: this.cantRedirect
-        });
-
-        var self = this;
-        challengesPageD
-          .on('picked', function(model) {
-            self.trigger('picked', model);
-          });
-
-        var challengesPageE = new rv.ChallengesView({
-          collection: options.collection5,
-          cantRedirect: this.cantRedirect
-        });
-
-        var self = this;
-        challengesPageE
-          .on('picked', function(model) {
-            self.trigger('picked', model);
-          });
-
-        var challengesPageF = new rv.ChallengesView({
-          collection: options.collection6,
-          cantRedirect: this.cantRedirect
-        });
-
-        var self = this;
-        challengesPageF
-          .on('picked', function(model) {
-            self.trigger('picked', model);
-          });
-
         this.$el.find('.list-featured').html(challengesPage.$el);
-        this.$el.find('.list-one').html(challengesPageA.$el);
-        this.$el.find('.list-two').html(challengesPageB.$el);
-        this.$el.find('.list-three').html(challengesPageC.$el);
-        this.$el.find('.list-four').html(challengesPageD.$el);
-        this.$el.find('.list-five').html(challengesPageE.$el);
-        this.$el.find('.list-six').html(challengesPageF.$el);
+
+        if (typeof options.collection1 != "undefined") {
+
+          var challengesPageA = new rv.ChallengesView({
+            collection: options.collection1,
+            cantRedirect: this.cantRedirect
+          });
+
+          var self = this;
+          challengesPageA
+            .on('picked', function(model) {
+              self.trigger('picked', model);
+            });
+
+          var challengesPageB = new rv.ChallengesView({
+            collection: options.collection2,
+            cantRedirect: this.cantRedirect
+          });
+
+          var self = this;
+          challengesPageB
+            .on('picked', function(model) {
+              self.trigger('picked', model);
+            });
+
+          var challengesPageC = new rv.ChallengesView({
+            collection: options.collection3,
+            cantRedirect: this.cantRedirect
+          });
+
+          var self = this;
+          challengesPageC
+            .on('picked', function(model) {
+              self.trigger('picked', model);
+            });
+
+          var challengesPageD = new rv.ChallengesView({
+            collection: options.collection4,
+            cantRedirect: this.cantRedirect
+          });
+
+          var self = this;
+          challengesPageD
+            .on('picked', function(model) {
+              self.trigger('picked', model);
+            });
+
+          var challengesPageE = new rv.ChallengesView({
+            collection: options.collection5,
+            cantRedirect: this.cantRedirect
+          });
+
+          var self = this;
+          challengesPageE
+            .on('picked', function(model) {
+              self.trigger('picked', model);
+            });
+
+          var challengesPageF = new rv.ChallengesView({
+            collection: options.collection6,
+            cantRedirect: this.cantRedirect
+          });
+
+          var self = this;
+          challengesPageF
+            .on('picked', function(model) {
+              self.trigger('picked', model);
+            });
+
+          this.$el.find('.list-one').html(challengesPageA.$el);
+          this.$el.find('.list-two').html(challengesPageB.$el);
+          this.$el.find('.list-three').html(challengesPageC.$el);
+          this.$el.find('.list-four').html(challengesPageD.$el);
+          this.$el.find('.list-five').html(challengesPageE.$el);
+          this.$el.find('.list-six').html(challengesPageF.$el);
+        }
       },
 
       renderList: function(challenges) {
@@ -219,7 +223,10 @@ window.rupon.views = window.rupon.views || {};
         'click .delete': 'delete',
         'click .report-challenge': 'reportChallenge',
         'click .submit-challenge-subject': 'submitChallengeSubject',
-        'click .submit-featured': 'submitFeatured'
+        'click .submit-featured': 'submitFeatured',
+        'click .change-challenge-title': 'changeChallengeTitle',
+        'click .edit-title-container .btn-primary': 'submitChallengeTitle',
+        'click .remove-subject': 'removeSubject'
       },
 
       initialize: function(options) {
@@ -296,6 +303,29 @@ window.rupon.views = window.rupon.views || {};
               setTimeout(function() {
                 self.$el.removeClass('completed');
               }, 1000)
+            },
+            dataType: 'JSON'
+        });
+      },
+
+      changeChallengeTitle: function() {
+        this.$el.find('.title-container').hide();
+        this.$el.find('.edit-title-container').show();
+      },
+
+      submitChallengeTitle: function() {
+        var val = this.$el.find('.edit-title-container input').val();
+        var self = this;
+        $.ajax({
+            type: 'PUT',
+            data: {
+              title: val
+            },
+            url:  '/api/challenges/' + this.model.id,
+            success: function(response) {
+              self.$el.find('.title-container').show();
+              self.$el.find('.title-container').text(val);
+              self.$el.find('.edit-title-container').hide();
             },
             dataType: 'JSON'
         });
@@ -470,6 +500,22 @@ window.rupon.views = window.rupon.views || {};
               self.$el.find('.subjects-list').html(response.subjects.join(", "));
               self.$el.find('.add-challenge-subject').val("");
               self.$el.find('.add-challenge-subject').focus();
+            },
+            dataType: 'JSON'
+        });
+      },
+
+      removeSubject: function(e) {
+        var self = this;
+        var val = $(e.currentTarget).text();
+        $.ajax({
+            type: 'PUT',
+            url:  '/api/challenges/' +self.model.id,
+            data: {
+                removeSubject: val
+            },
+            success: function(response) {
+              $(e.currentTarget).remove();
             },
             dataType: 'JSON'
         });

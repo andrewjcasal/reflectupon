@@ -33,7 +33,7 @@ window.rupon.utils = window.rupon.utils || {};
       var challengesPage = new rv.MainChallengesView({
         challenges: challenges,
         prompts:    params.prompts,
-        collectionFeatured: new rm.challengesCollection(challenges),
+        collection:  new rm.challengesCollection(challenges),
         collection1: new rm.challengesCollection(challenges1),
         collection2: new rm.challengesCollection(challenges2),
         collection3: new rm.challengesCollection(challenges3),

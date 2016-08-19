@@ -85,7 +85,9 @@ exports.put = function(req, res) {
     'avatar_url',
     'flaggedBy',
     'addSubject',
-    'featured'
+    'removeSubject',
+    'featured',
+    'title'
   ]);
 
   // Only specific user challenges
@@ -108,6 +110,15 @@ exports.put = function(req, res) {
       Challenge.findByIdAndUpdate(req.params.id, {
         $push: {subjects: options.addSubject}
       }, {'new': true}, function(err, challenge) {
+        if (err) {
+          console.log(err);
+        }
+        res.send(challenge);
+      });
+    } else if (options.removeSubject) {
+      Challenge.findByIdAndUpdate(req.params.id, {
+        $pull: {subjects: options.removeSubject}
+      }, function(err, challenge) {
         if (err) {
           console.log(err);
         }
