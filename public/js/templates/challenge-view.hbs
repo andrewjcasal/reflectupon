@@ -148,6 +148,15 @@
   <div class="reflection-container clearfix {{#equal status "completed"}}{{else}}hidden{{/equal}}">
     <div class="prompt">Write your reflection below about how it was like for you to do the challenge! (Optional)</div>
     <textarea placeholder="It felt..."></textarea>
+    {{#if communities}}
+    <span>Share to Community:</span>
+    <select style="border: 1px solid #ccc;
+    margin-top: 10px;">
+      {{#each communities}}
+        <option value="{{_id}}">{{title}}</option>
+      {{/each}}
+    </select>
+    {{/if}}
     <button class="btn btn-primary submit-reflection">Submit</button>
   </div>
   {{/unless}}

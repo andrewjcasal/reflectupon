@@ -1,5 +1,6 @@
 var mongoose   = require('mongoose')
   , Challenge  = mongoose.model('Challenge')
+  , Community  = mongoose.model('Community')
   , _          = require('underscore')
   , Thought    = mongoose.model('Thought')
   , User       = mongoose.model('User')
@@ -152,26 +153,30 @@ exports.postThought = function(req, res) {
 
   Challenge.findById(req.params.id, function(err, challenge) {
 
-    var thoughtAttr = {
-        description:    req.body.description,
-        privacy:        req.body.privacy,
-        user_id:        req.user._id,
-        challenge:      challenge,
-        date:           new Date()
-    }
+    Community.findById(req.body.community, function(err, community) {
 
-    var thought = new Thought(thoughtAttr);
-
-    thought.save(function(err) {
-
-      var options = {
-        thought: thought
+      var thoughtAttr = {
+          description:    req.body.description,
+          privacy:        req.body.privacy,
+          user_id:        req.user._id,
+          challenge:      challenge,
+          community:      community,
+          date:           new Date()
       }
 
-      putUserChallenges(req.user._id, req.params.id, options, function(user_challenge) {
-        res.send(thought);
-      })
-    });
+      var thought = new Thought(thoughtAttr);
+
+      thought.save(function(err) {
+
+        var options = {
+          thought: thought
+        }
+
+        putUserChallenges(req.user._id, req.params.id, options, function(user_challenge) {
+          res.send(thought);
+        })
+      });
+    })
 
   })
 }

@@ -154,6 +154,7 @@ window.rupon.views = window.rupon.views || {};
                     });
             
                     $(modal.$el).modal();
+                    modal.$el.addClass('horizontal-challenge-view');
 
                     pastChallengesView
                         .on('picked', function(model) {

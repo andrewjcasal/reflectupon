@@ -202,6 +202,7 @@ exports.post = function(req, res) {
                             callback2();
 
                         },function() {
+                            emails.sendPostActivityEmailToCommunity(thought, req.body.communityId, req.user);
                             res.send(thought);
                         });
                     })

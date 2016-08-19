@@ -22,7 +22,8 @@ window.rupon.utils = window.rupon.utils || {};
       var challengePage = new rv.ChallengeView({
         model: new Backbone.Model(params.challenge),
         extended: true,
-        isCreator: params.challenge.creator && (params.challenge.creator._id == params.user._id)
+        isCreator: params.challenge.creator && (params.challenge.creator._id == params.user._id),
+        communities: params.myCommunities
       })
 
       var frequencyView = new rv.FrequencyView({

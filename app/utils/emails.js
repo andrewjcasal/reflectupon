@@ -7,6 +7,7 @@ var config   = process.env.PORT ? require('../../config') : require('../../confi
   , mongoose = require('mongoose')
   , Thought  = mongoose.model('Thought')
   , User     = mongoose.model('User')
+  , Community = mongoose.model('Community')
   , userSettings = require('../controllers/api/user_settings')
   , _        = require('underscore')
   , helpers  = require('../helpers')
@@ -16,7 +17,7 @@ exports.sendEmail = function(params, callback) {
 
   var email_params = {
       to:       params.recipients,
-      from:     params.from || 'andrewjcasal@gmail.com',
+      from:     params.from || 'stephen@heroslive.com',
       subject:  params.subject,
       html:     params.html_template
   }
@@ -141,6 +142,30 @@ exports.sendReplyToOtherParticipants = function(thought, reply) {
       });
     });
   });
+}
+
+exports.sendPostActivityEmailToCommunity = function(thought, communityId, user) {
+
+  Community.findById(communityId)
+    .populate('members')
+    .exec(function(err, community) {
+      var emails = _.uniq(_.map(community.members, function(m) {
+        return m.email
+      }));
+
+      var username;
+      if (thought.privacy == "PUBLIC") {
+        username = thought.username;
+      } else {
+        username = "Anonymous";
+      }
+      var params = {
+        recipients: _.without(emails, user.email),
+        subject: "There's activity in your community!",
+        html_template: username + " just wrote an entry in the "+ community.title + " community. Check it out on Heros!<br /><br />"+thought.description
+      }
+      exports.sendEmail(params);
+  })
 }
 
 exports.sendEmailWhenThanked = function(reply) {

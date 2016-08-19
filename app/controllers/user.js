@@ -371,7 +371,7 @@ exports.challenge = function(req, res) {
 
 exports.profile = function(req, res) {
 
-    User.findById(req.user._id)
+    User.findOne({username: req.params.name})
         .populate('communities')
         .populate({
           path: 'user_challenges.challenge',

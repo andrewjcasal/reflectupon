@@ -400,13 +400,15 @@ window.rupon.views = window.rupon.views || {};
 
       submitReflection: function() {
         var val = this.$el.find('.reflection-container textarea').val();
+        var communityId = this.$el.find('select').val();
         var self = this;
         if (val != "") {
           $.ajax({
               type: 'POST',
               data: {
                 description: val,
-                privacy:     "ANONYMOUS"
+                privacy:     "ANONYMOUS",
+                community:   communityId
               },
               url:  '/api/challenges/' + this.model.id + '/thought',
               success: function(response) {
