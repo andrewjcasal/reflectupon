@@ -407,22 +407,28 @@ exports.profile = function(req, res) {
                     userSettings.getSettings(req.user._id, function(userSettings) {
 
                         User.find({username: req.params.name}, function(err, profile) {
-                            var userAttrs = _.pick(req.user, [
-                                'username',
-                                '_id',
-                                'email',
-                                'intention',
-                                'avatar_url'
-                            ]);
 
-                            var profileAttrs = _.pick(profile[0], [
-                                'username',
-                                '_id',
-                                'email',
-                                'intention',
-                                'personal_url',
-                                'avatar_url'
-                            ]);
+                            var userAttrs = [], profileAttrs = [];
+
+                            if (profile) {
+
+                                userAttrs = _.pick(req.user, [
+                                    'username',
+                                    '_id',
+                                    'email',
+                                    'intention',
+                                    'avatar_url'
+                                ]);
+
+                                profileAttrs = _.pick(profile[0], [
+                                    'username',
+                                    '_id',
+                                    'email',
+                                    'intention',
+                                    'personal_url',
+                                    'avatar_url'
+                                ]);
+                            }
 
                             res.render('profile', _.defaults({
                                 user: JSON.stringify(userAttrs),
