@@ -382,21 +382,27 @@ exports.profile = function(req, res) {
 
                 challenges.getChallenges({creator: user}, function(created) {
 
-                    var completed = _.filter(user.user_challenges, function(uc) {
-                        return uc.status == 'completed';
-                    });
+                    var completed = [];
+                    if (user && user.user_challenges) {
+                        completed = _.filter(user.user_challenges, function(uc) {
+                            return uc.status == 'completed';
+                        });
 
-                    completed = _.map(completed, function(com) {
-                        return com.challenge;
-                    });
+                        completed = _.map(completed, function(com) {
+                            return com.challenge;
+                        });
+                    }
 
-                    var current = _.filter(user.user_challenges, function(uc) {
-                        return uc.status == 'started';
-                    });
+                    var current = [];
+                    if (user && user.user_challenges) {
+                        current = _.filter(user.user_challenges, function(uc) {
+                            return uc.status == 'started';
+                        });
 
-                    current = _.map(current, function(com) {
-                        return com.challenge;
-                    });
+                        current = _.map(current, function(com) {
+                            return com.challenge;
+                        });
+                    }
 
                     userSettings.getSettings(req.user._id, function(userSettings) {
 
