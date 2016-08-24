@@ -80,6 +80,12 @@ exports.getAnnotationsForThought = function(thought, user_id, callback) {
     })
 }
 
+exports.getStream = function(req, res) {
+    exports.getPublicThoughts({}, function(popular_thoughts) {
+        res.send(popular_thoughts);
+    });
+}
+
 exports.getPublicThoughts = function(params, callback, options) {
 
     options = options || {};
@@ -180,8 +186,13 @@ exports.getPublicThoughts = function(params, callback, options) {
                                     if (params.community && userSubscribedToCommunity) {
                                         thought.username = user.username;
                                         thought.intention = user.intention;
+                                        //thought.user = _.pick(user, ['username','intention','avatar_url']);
                                     } else {
                                         thought.privacy = "ANONYMOUS";
+                                        thought.user = {
+                                            username:   "Anonymous",
+                                            avatar_url: "/images/heros-default.jpg"
+                                        }
                                     }
 
                                     callback2();

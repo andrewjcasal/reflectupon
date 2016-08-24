@@ -4,6 +4,7 @@ var mongoose        = require('mongoose')
   , _               = require('underscore')
   , $               = require('jquery')(require('jsdom').jsdom().parentWindow)
   , emails          = require('../app/utils/emails')
+  , helpers          = require('../app/helpers')
   , user_routes      = require('../app/controllers/user')
   , thought_routes   = require('../app/controllers/thought')
   , superuser_routes = require('../app/controllers/superuser')
@@ -55,6 +56,7 @@ module.exports = function(app) {
     app.get( '/superuser', auth.ensureAuthenticated, superuser_routes.get);
     app.get( '/settings/:id',                        user_routes.settings);
 
+    app.get('/api/stream',         helpers.getStream);
     app.get('/api/thought',        thoughts.get);
     app.post('/api/thought',       thoughts.post);
     app.put('/api/thought/:id',    thoughts.put);
