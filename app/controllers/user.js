@@ -1,6 +1,5 @@
 var config          = process.env.PORT ? require('../../config') : require('../../config_settings'),
     passport        = require('passport'),
-    OAuth2Strategy  = require('passport-oauth').OAuth2Strategy,
     util            = require('util'),
     mongoose        = require('mongoose'),
     LocalStrategy   = require('passport-local').Strategy,
