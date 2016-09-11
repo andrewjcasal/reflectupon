@@ -1,8 +1,10 @@
 var config          = process.env.PORT ? require('../../config') : require('../../config_settings'),
     passport        = require('passport'),
+    OAuth2Strategy  = require('passport-oauth').OAuth2Strategy,
     util            = require('util'),
     mongoose        = require('mongoose'),
     LocalStrategy   = require('passport-local').Strategy,
+    BearerStrategy  = require('passport-http-bearer').Strategy,
     forgot          = require('../../forgot'),
     fs              = require('fs'),
     helpers         = require('../helpers'),
@@ -544,6 +546,10 @@ exports.getIndex = function(req, res) {
     res.render('index', options);
 };
 
+exports.loginForm = function(req, res) {
+  res.render('login');
+};
+
 exports.postlogin = function(req, res, next) {
 
     req.body.username = req.body.username.trim().toLowerCase();
@@ -879,3 +885,13 @@ passport.use(new LocalStrategy(function(email, password, done) {
         });
     });
 }));
+
+passport.use(new BearerStrategy(
+  function(token, done) {
+    User.findOne({ token: token }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      return done(null, user, { scope: 'read' });
+    });
+  }
+));

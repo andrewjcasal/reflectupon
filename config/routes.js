@@ -6,6 +6,7 @@ var mongoose        = require('mongoose')
   , emails          = require('../app/utils/emails')
   , helpers          = require('../app/helpers')
   , user_routes      = require('../app/controllers/user')
+  , oauth2           = require('../app/controllers/oauth2')
   , thought_routes   = require('../app/controllers/thought')
   , superuser_routes = require('../app/controllers/superuser')
   , dates            = require('../app/controllers/api/dates')
@@ -47,6 +48,12 @@ module.exports = function(app) {
     app.get( '/logout',                              user_routes.logout);
     app.post('/register',                            user_routes.postregister);
     app.post('/register-beta',                       user_routes.postRegBetaUser);
+    app.get('/login', user_routes.loginForm);
+    
+    app.get('/dialog/authorize', oauth2.authorization);
+    app.post('/dialog/authorize/decision', oauth2.decision);
+    app.post('/oauth/token', oauth2.token);
+
     app.post('/check-password',                      user_routes.checkPassword);
     app.post('/forgot',                              user_routes.postForgot);
     app.post('/reset',                               user_routes.postReset);
