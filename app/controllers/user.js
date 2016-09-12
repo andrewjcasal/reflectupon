@@ -549,23 +549,26 @@ exports.loginForm = function(req, res) {
   res.render('login');
 };
 
-exports.postlogin = function(req, res, next) {
+exports.postlogin = passport.authenticate('local', { successReturnToOrRedirect: '/home', failureRedirect: '/'});
 
-    req.body.username = req.body.username.trim().toLowerCase();
+// function(req, res, next) {
 
-    passport.authenticate('local', function(err, user, info) {
-        if (err) { return next(err) }
-        if (!user) {
-            req.session.messages =  {message: 'Incorrect username or password'};
-            return res.redirect('/')
-        }
-        req.logIn(user, function(err) {
+//     req.body.username = req.body.username.trim().toLowerCase();
 
-            if (err) { return next(err); }
-            return res.redirect('/home');
-        });
-    })(req, res, next);
-};
+//     passport.authenticate('local', { successReturnToOrRedirect: '/home', failureRedirect: '/'})
+//     passport.authenticate('local', function(err, user, info) {
+//         if (err) { return next(err) }
+//         if (!user) {
+//             req.session.messages =  {message: 'Incorrect username or password'};
+//             return res.redirect('/')
+//         }
+//         req.logIn(user, function(err) {
+
+//             if (err) { return next(err); }
+//             return res.redirect('/home');
+//         });
+//     })(req, res, next);
+// };
 
 exports.logout = function(req, res) {
     req.logout();
