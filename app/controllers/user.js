@@ -4,6 +4,8 @@ var config          = process.env.PORT ? require('../../config') : require('../.
     mongoose        = require('mongoose'),
     LocalStrategy   = require('passport-local').Strategy,
     BearerStrategy  = require('passport-http-bearer').Strategy,
+    BasicStrategy   = require('passport-http').BasicStrategy,
+    ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy,
     forgot          = require('../../forgot'),
     fs              = require('fs'),
     helpers         = require('../helpers'),
@@ -888,6 +890,17 @@ passport.use(new LocalStrategy(function(email, password, done) {
     });
 }));
 
+passport.use(new BasicStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (!user.validPassword(password)) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
+
 passport.use(new BearerStrategy(
   function(token, done) {
     User.findOne({ token: token }, function (err, user) {
@@ -895,5 +908,25 @@ passport.use(new BearerStrategy(
       if (!user) { return done(null, false); }
       return done(null, user, { scope: 'read' });
     });
+  }
+));
+
+passport.use(new ClientPasswordStrategy(
+  function(clientId, clientSecret, done) {
+    //Clients.findOne({ clientId: clientId }, function (err, client) {
+
+    if (clientId == 'abc123') {
+
+        var client = {
+            clientId: 'abc123',
+            clientSecret: 'ssh-secret'
+        }
+
+        //if (err) { return done(err); }
+        if (!client) { return done(null, false); }
+        if (client.clientSecret != clientSecret) { return done(null, false); }
+        return done(null, client);
+        //});
+    }
   }
 ));

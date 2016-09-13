@@ -1,20 +1,36 @@
+var mongoose = require('mongoose'),
+    AuthorizationCode = mongoose.model('AuthorizationCode');
+
 var codes = {};
 
 
 exports.find = function(key, done) {
-  var code = codes[key];
-  return done(null, code);
+  AuthorizationCode
+    .findOne({code: key})
+    .exec(function(err, code) {
+      return done(null, code);
+    })
 };
 
 exports.save = function(code, clientID, redirectURI, userID, done) {
+  var authorizationCode = new AuthorizationCode({
+    code: code,
+    clientID: clientID,
+    redirectURI: redirectURI,
+    userID: userID
+  });
 
-  console.log('saved');
-  console.log(arguments);
-  codes[code] = { clientID: clientID, redirectURI: redirectURI, userID: userID };
-  return done(null);
+  authorizationCode.save(function(err) {
+    return done(null);
+  })
 };
 
 exports.delete = function(key, done) {
-    delete codes[key];
-    return done(null);
+  AuthorizationCode
+    .findOne({code: key})
+    .exec(function(err, code) {
+      code.remove(function(err) {
+        return done(null);
+      })
+    })
 }

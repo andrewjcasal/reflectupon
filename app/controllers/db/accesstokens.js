@@ -1,12 +1,27 @@
-var tokens = {};
+var mongoose = require('mongoose'),
+    Token = mongoose.model('AccessToken');
 
 
 exports.find = function(key, done) {
-  var token = tokens[key];
-  return done(null, token);
+  console.log('find token');
+  Token
+    .find({token: key})
+    .exec(function(err, token) {
+      console.log('token found');
+      return done(null, token);
+    })
 };
 
 exports.save = function(token, userID, clientID, done) {
-  tokens[token] = { userID: userID, clientID: clientID };
-  return done(null);
+  console.log('saved');
+  console.log(arguments);
+  var token = new Token({
+    token:    token,
+    userID:   userID,
+    clientID: clientID
+  })
+
+  token.save(function(err) {
+    return done(null);
+  })
 };

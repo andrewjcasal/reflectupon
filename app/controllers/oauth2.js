@@ -20,7 +20,7 @@ server.deserializeClient(function(id, done) {
 server.grant(oauth2orize.grant.code(function(client, redirectURI, user, ares, done) {
   var code = utils.uid(16)
   
-  db.authorizationCodes.save(code, client.id, redirectURI, user.id, function(err) {
+  db.authorizationCodes.save(code, client.clientId, redirectURI, user.id, function(err) {
     if (err) { return done(err); }
     done(null, code);
   });
@@ -30,9 +30,8 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, do
   db.authorizationCodes.find(code, function(err, authCode) {
     if (err) { return done(err); }
     if (authCode === undefined) { return done(null, false); }
-    if (client.id !== authCode.clientID) { return done(null, false); }
+    if (client.clientId !== authCode.clientID) { return done(null, false); }
     if (redirectURI !== authCode.redirectURI) { return done(null, false); }
-
       db.authorizationCodes.delete(code, function(err) {
         if(err) { return done(err); }
         var token = utils.uid(256);
