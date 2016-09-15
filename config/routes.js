@@ -50,8 +50,6 @@ module.exports = function(app) {
     app.post('/register-beta',                       user_routes.postRegBetaUser);
     app.get('/login', user_routes.loginForm);
     
-    app.get('/dialog/authorize', oauth2.authorization);
-    app.post('/dialog/authorize/decision', oauth2.decision);
     app.post('/oauth/token', oauth2.token);
 
     app.post('/check-password',                      user_routes.checkPassword);

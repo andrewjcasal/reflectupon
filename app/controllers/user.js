@@ -890,31 +890,49 @@ passport.use(new LocalStrategy(function(email, password, done) {
     });
 }));
 
-passport.use(new BasicStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (!user.validPassword(password)) { return done(null, false); }
-      return done(null, user);
-    });
-  }
-));
-
-passport.use(new BearerStrategy(
-  function(token, done) {
-    User.findOne({ token: token }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      return done(null, user, { scope: 'read' });
-    });
-  }
-));
-
-passport.use(new ClientPasswordStrategy(
+passport.use("clientBasic", new BasicStrategy(
   function(clientId, clientSecret, done) {
     //Clients.findOne({ clientId: clientId }, function (err, client) {
+    if (clientId == 'abc123') {
 
+        var client = {
+            clientId: 'abc123',
+            clientSecret: 'ssh-secret'
+        }
+
+        //if (err) { return done(err); }
+        if (!client) { return done(null, false); }
+        if (client.clientSecret != clientSecret) { return done(null, false); }
+        return done(null, client);
+        //});
+    }
+  }
+));
+
+passport.use("accessToken", new BearerStrategy(
+    function (accessToken, done) {
+        var accessTokenHash = crypto.createHash('sha1').update(accessToken).digest('hex')
+        db.collection('accessTokens').findOne({token: accessTokenHash}, function (err, token) {
+            if (err) return done(err)
+            if (!token) return done(null, false)
+            if (new Date() > token.expirationDate) {
+                db.collection('accessTokens').remove({token: accessTokenHash}, function (err) { done(err) })
+            } else {
+                db.collection('users').findOne({username: token.userId}, function (err, user) {
+                    if (err) return done(err)
+                    if (!user) return done(null, false)
+                    // no use of scopes for no
+                    var info = { scope: '*' }
+                    done(null, user, info);
+                })
+            }
+        })
+    }
+))
+
+passport.use("clientPassword", new ClientPasswordStrategy(
+  function(clientId, clientSecret, done) {
+    //Clients.findOne({ clientId: clientId }, function (err, client) {
     if (clientId == 'abc123') {
 
         var client = {

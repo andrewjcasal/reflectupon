@@ -3,8 +3,10 @@ var mongoose = require('mongoose')
 
 var accessTokenSchema = Schema({
     token:    String,
+    expirationDate: Date,
     userID:   String,
-    clientID: String
+    clientID: String,
+    scope:    String
 });
 
 mongoose.model('AccessToken', accessTokenSchema);
